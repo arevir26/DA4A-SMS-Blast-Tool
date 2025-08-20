@@ -35,5 +35,10 @@ public class DataManager {
 		return instance;
 	}
 	
+	public String[] getTemplateList() {
+		//returns dummy data
+		return new String[] {"Default Template", "Template 2"};
+	}
+	
 	
 }
