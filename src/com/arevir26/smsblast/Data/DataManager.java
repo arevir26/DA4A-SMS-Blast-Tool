@@ -1,6 +1,7 @@
 package com.arevir26.smsblast.Data;
 
 import java.awt.Dimension;
+import java.net.URI;
 
 public class DataManager {
 	private static DataManager instance;
@@ -38,6 +39,20 @@ public class DataManager {
 	public String[] getTemplateList() {
 		//returns dummy data
 		return new String[] {"Default Template", "Template 2"};
+	}
+	
+	public String getBearer() {
+		return "sdjfsdljflsdfjlsdfldj";
+	}
+	
+	public URI getApiUri() {
+		try {
+			URI uri = new URI("http://www.bantaypresyo.da.gov.ph");
+			return uri;
+		} catch (Exception e) {
+			e.printStackTrace();
+		};
+		return null;
 	}
 	
 	

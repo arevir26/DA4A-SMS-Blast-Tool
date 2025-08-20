@@ -6,6 +6,7 @@ import javax.swing.JTabbedPane;
 
 import com.arevir26.smsblast.Data.DataManager;
 import com.arevir26.smsblast.Data.IConfig;
+import com.arevir26.smsblast.core.MessageSender;
 
 public class MainPanel extends JFrame{
 	
@@ -32,6 +33,7 @@ public class MainPanel extends JFrame{
 	}
 	
 	private void initComponents(){
+		MessageSender sender = new MessageSender();
 		tabpane = new JTabbedPane();
 		smspanel = new SMSTabContainer();
 		tabpane.add("Send SMS", smspanel);
