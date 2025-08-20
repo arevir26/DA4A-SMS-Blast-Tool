@@ -1,6 +1,8 @@
 package com.arevir26.smsblast.GUI;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTabbedPane;
 
 import com.arevir26.smsblast.Data.DataManager;
 import com.arevir26.smsblast.Data.IConfig;
@@ -9,9 +11,14 @@ public class MainPanel extends JFrame{
 	
 	private static final String WINDOW_TITLE = "Bantay Presyo SMS Blast Tool";
 	
+	protected JTabbedPane tabpane;
+	protected SendSMSPanel smspanel;
+	
 	public MainPanel() {
 		setWindowSize();
 		setTitle(WINDOW_TITLE);
+		
+		initComponents();
 	}
 	
 	private void setWindowSize() {
@@ -23,5 +30,12 @@ public class MainPanel extends JFrame{
 		}
 		
 	}
-
+	
+	private void initComponents(){
+		tabpane = new JTabbedPane();
+		smspanel = new SendSMSPanel();
+		tabpane.add("Send SMS", smspanel);
+		tabpane.add("Contacts", new JLabel("Contacts"));
+		add(tabpane);
+	}
 }
