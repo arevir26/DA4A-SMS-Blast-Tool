@@ -12,7 +12,7 @@ public class MainPanel extends JFrame{
 	private static final String WINDOW_TITLE = "Bantay Presyo SMS Blast Tool";
 	
 	protected JTabbedPane tabpane;
-	protected SendSMSPanel smspanel;
+	protected SMSTabContainer smspanel;
 	
 	public MainPanel() {
 		setWindowSize();
@@ -33,7 +33,7 @@ public class MainPanel extends JFrame{
 	
 	private void initComponents(){
 		tabpane = new JTabbedPane();
-		smspanel = new SendSMSPanel();
+		smspanel = new SMSTabContainer();
 		tabpane.add("Send SMS", smspanel);
 		tabpane.add("Contacts", new JLabel("Contacts"));
 		add(tabpane);
