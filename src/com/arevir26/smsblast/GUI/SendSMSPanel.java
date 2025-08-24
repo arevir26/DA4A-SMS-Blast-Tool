@@ -1,27 +1,33 @@
 package com.arevir26.smsblast.GUI;
 
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import com.arevir26.smsblast.Data.DataManager;
-
-public class SendSmsPanel extends JPanel{
+public class SendSMSPanel extends JPanel{
 	
-	protected JComboBox<String> selectTemplate;
+	protected FileSelectionPanel fileSelector;
 	
-	public SendSmsPanel() {
+	protected GridBagConstraints cons;
+	
+	
+	
+	public SendSMSPanel() {
 		init();
 	}
 	
 	private void init() {
 		setBackground(Color.WHITE);
-		selectTemplate = new JComboBox<String>();
-		String[] templatelist = DataManager.getInstance().getTemplateList();
-		selectTemplate.setModel(new DefaultComboBoxModel<String>(templatelist));
+		setLayout(new GridBagLayout());
+		cons = new GridBagConstraints();
+		cons.fill = GridBagConstraints.HORIZONTAL;
+		cons.weightx = 1;
 		
-		add(selectTemplate);
+		fileSelector = new FileSelectionPanel();
+		add(fileSelector, cons);
 	}
+	
+	
 }
