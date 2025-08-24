@@ -8,12 +8,12 @@ import javax.swing.JSplitPane;
 
 public class SMSTabContainer extends JPanel{
 	private JSplitPane splitpane;
-	private SendSmsPanel sendpanel;
+	private SendSMSPanel sendpanel;
 	private GridBagConstraints cons;
 	
 	public SMSTabContainer() {
 		splitpane = new JSplitPane();
-		sendpanel = new SendSmsPanel();
+		sendpanel = new SendSMSPanel();
 		splitpane.setLeftComponent(sendpanel);
 		
 		cons = new GridBagConstraints();
