@@ -21,6 +21,7 @@ public class SendSMSPanel extends JPanel{
 	protected JComboBox<String> templateComboBox;
 	protected JComboBox<MarketData> marketDataComboBox;
 	protected JScrollPane messageScrollPane;
+	protected JButton generateMessageButton;
 	protected JTextArea messageField;
 	protected JButton sendButton;
 	
@@ -39,6 +40,7 @@ public class SendSMSPanel extends JPanel{
 		
 		templateComboBox = new JComboBox<String>();
 		marketDataComboBox = new JComboBox<MarketData>();
+		generateMessageButton = new JButton("<html>Generate<br/>Message</html>");
 		
 		messageScrollPane = new JScrollPane();
 		messageField = new JTextArea();
@@ -58,7 +60,7 @@ public class SendSMSPanel extends JPanel{
 		cons.weighty = 0;
 		cons.gridx = 0;
 		cons.gridy = 0;
-		cons.gridwidth = 2;
+		cons.gridwidth = 3;
 		
 		fileSelector = new FileSelectionPanel();
 		add(fileSelector, cons);
@@ -75,9 +77,16 @@ public class SendSMSPanel extends JPanel{
 		cons.fill = GridBagConstraints.HORIZONTAL;
 		add(templateComboBox, cons);
 		
+		cons.gridx = 2;
+		cons.weightx = 0;
+		cons.gridheight = 2;
+		cons.fill = GridBagConstraints.BOTH;
+		add(generateMessageButton, cons);
+		
 		cons.gridy = 2;
 		cons.gridx = 0;
 		cons.weightx = 0;
+		cons.gridheight = 1;
 		cons.fill = GridBagConstraints.NONE;
 		add(new JLabel("Market Data: "), cons);
 		cons.gridx = 1;
@@ -89,13 +98,15 @@ public class SendSMSPanel extends JPanel{
 		cons.gridx = 0;
 		cons.weightx = 1;
 		cons.weighty = 1;
-		cons.gridwidth = 2;
+		cons.gridwidth = 3;
 		cons.fill = GridBagConstraints.BOTH;
 		add(messageScrollPane, cons);
 		
 		cons.gridy = 4;
-		cons.gridx = 1;
+		cons.gridx = 0;
 		cons.weighty = 0;
+		cons.fill = GridBagConstraints.NONE;
+		cons.anchor = GridBagConstraints.EAST;
 		add(sendButton, cons);
 		
 		
