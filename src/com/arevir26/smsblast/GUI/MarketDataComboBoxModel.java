@@ -17,7 +17,7 @@ public class MarketDataComboBoxModel implements ComboBoxModel<MarketData> {
 	public MarketDataComboBoxModel(List<MarketData> data) {
 		this.listDataListeners = new ArrayList<ListDataListener>();
 		
-		this.marketdata = new ArrayList<MarketData>();
+		this.marketdata =data;
 		
 	}
 	

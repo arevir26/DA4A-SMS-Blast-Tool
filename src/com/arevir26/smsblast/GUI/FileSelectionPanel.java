@@ -66,6 +66,9 @@ public class FileSelectionPanel extends JPanel implements ActionListener {
 		
 		selectFileButton.addActionListener(this);
 		readFileButton.addActionListener(this);
+		
+		
+	
 	}
 
 
