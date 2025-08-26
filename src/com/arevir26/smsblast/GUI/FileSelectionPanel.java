@@ -10,13 +10,12 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class FileSelectionPanel extends JPanel implements ActionListener {
 	
@@ -33,7 +32,6 @@ public class FileSelectionPanel extends JPanel implements ActionListener {
 	
 	private void initialize() {
 		listeners = new ArrayList<FileSelectionPanel.FileSelectorActionListener>();
-		setMinimumSize(new Dimension(400,400));
 		setBackground(Color.WHITE);
 		setLayout(new GridBagLayout());
 		cons = new GridBagConstraints();
@@ -79,19 +77,35 @@ public class FileSelectionPanel extends JPanel implements ActionListener {
 		
 		// read button Clicked
 		if(e.getSource()==readFileButton) {
-			
+			validateFile();
 		}
 	}
 	
-	public void checkFiles() {
-		
+	protected void validateFile() {
+		// Check file before selecting
+		if(selectedFile==null) {
+			onError("Invalid File selected.");
+			return;
+		}
+		if(!selectedFile.canRead()) {
+			onError("Unreadable File.");
+			return;
+		}
+		for(FileSelectorActionListener listener : this.listeners) {
+			listener.onFileSelected(selectedFile);
+		}
 	}
 	
-	
+	private void onError(String msg) {
+		for(FileSelectorActionListener listener : this.listeners) {
+			listener.onSelectionError(msg);;
+		}
+	}
 	
 	private void showFileChooser() {
 		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.addChoosableFileFilter(new CSVFileFilter());
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV", "csv");
+		fileChooser.setFileFilter(filter);
 		int selectionStatus = fileChooser.showOpenDialog(this);
 		
 		if(selectionStatus == JFileChooser.APPROVE_OPTION) {
