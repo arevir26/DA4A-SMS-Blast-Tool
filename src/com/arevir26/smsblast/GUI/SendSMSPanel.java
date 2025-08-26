@@ -5,6 +5,10 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,6 +18,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import com.arevir26.smsblast.Data.MarketData;
+import com.arevir26.smsblast.core.CSVMarketDataParser;
+import com.arevir26.smsblast.core.IMarketDataParser;
 
 public class SendSMSPanel extends JPanel{
 	
@@ -109,7 +115,23 @@ public class SendSMSPanel extends JPanel{
 		cons.anchor = GridBagConstraints.EAST;
 		add(sendButton, cons);
 		
-		
+		////test
+		this.fileSelector.readFileButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				IMarketDataParser parser = new CSVMarketDataParser();
+				try {
+					List<MarketData> data = parser.getMarketData(new File("C:\\Users\\Ryan Joseph\\Documents\\data merge test.csv"));
+					MarketDataComboBoxModel model = new MarketDataComboBoxModel(data);
+					marketDataComboBox.setModel(model);
+					//model.setMarketData(data);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		
 	}
 	

@@ -22,5 +22,10 @@ public class MarketData {
 		return data;
 	}
 	
+	@Override
+	public String toString() {
+		return this.name;
+	}
+	
 	
 }
