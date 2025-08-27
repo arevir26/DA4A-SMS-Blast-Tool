@@ -45,7 +45,6 @@ public class FileSelectionPanel extends JPanel implements ActionListener {
 		cons.gridy = 0;
 		cons.gridwidth = 1;
 		cons.weightx = 0;
-		cons.insets = new Insets(5, 5, 5, 5);
 		
 		//add label
 		add(new JLabel("Data: "), cons);
@@ -54,6 +53,8 @@ public class FileSelectionPanel extends JPanel implements ActionListener {
 		cons.weightx = 1;
 		cons.fill = GridBagConstraints.HORIZONTAL;
 		cons.weighty = 1;
+
+		cons.insets = new Insets(0, 5, 0, 5);
 		add(fileField, cons);
 		
 		cons.gridx = 2;
@@ -62,6 +63,7 @@ public class FileSelectionPanel extends JPanel implements ActionListener {
 		add(selectFileButton, cons);
 		
 		cons.gridx = 3;
+		cons.insets = new Insets(0, 5, 0, 0);
 		add(readFileButton, cons);
 		
 		selectFileButton.addActionListener(this);

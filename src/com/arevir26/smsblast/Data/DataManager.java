@@ -1,13 +1,18 @@
 package com.arevir26.smsblast.Data;
 
 import java.awt.Dimension;
+import java.io.File;
 import java.net.URI;
+
+import com.arevir26.smsblast.core.IDatabase;
+import com.arevir26.smsblast.core.SqliteDatabase;
 
 public class DataManager {
 	private static DataManager instance;
 	private IConfig config;
+	private IDatabase database;
 	private DataManager() {
-		
+		database = new SqliteDatabase();
 	}
 	
 	public IConfig getConfig() {
@@ -53,6 +58,11 @@ public class DataManager {
 			e.printStackTrace();
 		};
 		return null;
+	}
+	
+	public String getTemplate(File file) {
+		
+		return "";
 	}
 	
 	
