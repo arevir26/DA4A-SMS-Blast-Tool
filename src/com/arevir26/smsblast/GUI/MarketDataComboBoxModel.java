@@ -14,10 +14,14 @@ public class MarketDataComboBoxModel implements ComboBoxModel<MarketData> {
 	protected List<ListDataListener> listDataListeners;
 	protected Object selectedItem;
 	
+	public MarketDataComboBoxModel() {
+		this.listDataListeners = new ArrayList<ListDataListener>();
+		this.marketdata = new ArrayList<>();
+	}
+	
 	public MarketDataComboBoxModel(List<MarketData> data) {
 		this.listDataListeners = new ArrayList<ListDataListener>();
-		
-		this.marketdata =data;
+		this.marketdata = data==null? new ArrayList<>() : data;
 		
 	}
 	

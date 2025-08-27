@@ -9,27 +9,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import com.arevir26.smsblast.Data.DataManager;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import com.arevir26.smsblast.Data.MarketData;
 import com.arevir26.smsblast.core.CSVMarketDataParser;
 import com.arevir26.smsblast.core.IMarketDataParser;
 
-public class SendSMSPanel extends JPanel{
+public class SendSMSPanel extends JPanel implements ActionListener{
 	protected JTextField templateField;
 	protected JButton selectTemplateButton;
 	
 	protected FileSelectionPanel fileSelector;
 	protected JComboBox<String> templateComboBox;
 	protected JComboBox<MarketData> marketDataComboBox;
+	protected MarketDataComboBoxModel marketDataModel;
 	protected JScrollPane messageScrollPane;
 	protected JButton generateMessageButton;
 	protected JTextArea messageField;
@@ -53,6 +53,8 @@ public class SendSMSPanel extends JPanel{
 		
 		templateComboBox = new JComboBox<String>();
 		marketDataComboBox = new JComboBox<MarketData>();
+		marketDataModel = new MarketDataComboBoxModel();
+		marketDataComboBox.setModel(marketDataModel);
 		generateMessageButton = new JButton("<html>Generate<br/>Message</html>");
 		
 		messageScrollPane = new JScrollPane();
@@ -127,26 +129,44 @@ public class SendSMSPanel extends JPanel{
 		cons.anchor = GridBagConstraints.EAST;
 		add(sendButton, cons);
 		
-//		////test
-//		this.fileSelector.readFileButton.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				IMarketDataParser parser = new CSVMarketDataParser();
-//				try {
-//					List<MarketData> data = parser.getMarketData(new File("D:\\Workfiles\\Infographics\\data merge test.csv"));
-//					MarketDataComboBoxModel model = new MarketDataComboBoxModel(data);
-//					marketDataComboBox.setModel(model);
-//					//model.setMarketData(data);
-//				} catch (Exception e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
-//			}
-//		});
+		
+		selectTemplateButton.addActionListener(this);
+		
+		////test
+		this.fileSelector.readFileButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				IMarketDataParser parser = new CSVMarketDataParser();
+				try {
+					List<MarketData> data = parser.getMarketData(new File("D:\\Workfiles\\Infographics\\data merge test.csv"));
+					marketDataModel.setMarketData(data);
+					//model.setMarketData(data);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		
 		
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		if(e.getSource() == selectTemplateButton) {
+			JFileChooser filechooser = new JFileChooser();
+			filechooser.setFileFilter(new FileNameExtensionFilter("Text Files", "txt"));
+			int result = filechooser.showOpenDialog(this);
+			if(result == JFileChooser.APPROVE_OPTION) {
+				templateField.setText(filechooser.getSelectedFile().getAbsolutePath());
+			}
+		}
+	}
+	
+	
+	
 	
 	
 	
