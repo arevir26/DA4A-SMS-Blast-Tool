@@ -62,7 +62,7 @@ public class DataManager {
 	
 	public String getTemplate(File file) {
 		
-		return "";
+		return "Message: {Sugar (Washed)}";
 	}
 	
 	

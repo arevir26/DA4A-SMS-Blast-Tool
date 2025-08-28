@@ -2,6 +2,7 @@ package com.arevir26.smsblast.GUI;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -18,9 +19,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import com.arevir26.smsblast.Data.DataManager;
 import com.arevir26.smsblast.Data.MarketData;
 import com.arevir26.smsblast.core.CSVMarketDataParser;
 import com.arevir26.smsblast.core.IMarketDataParser;
+import com.arevir26.smsblast.core.MessageDataParser;
 
 public class SendSMSPanel extends JPanel implements ActionListener{
 	protected JTextField templateField;
@@ -62,6 +66,7 @@ public class SendSMSPanel extends JPanel implements ActionListener{
 		messageField.setEditable(true);
 		messageField.setLineWrap(true);
 		messageField.setMargin(new Insets(5, 5, 5, 5));
+		//messageField.setFont(new Font("Arial Unicode MS", Font.PLAIN, 12));
 		//messageScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		messageScrollPane.getViewport().setView(messageField);
 		
@@ -131,7 +136,7 @@ public class SendSMSPanel extends JPanel implements ActionListener{
 		
 		
 		selectTemplateButton.addActionListener(this);
-		
+		generateMessageButton.addActionListener(this);
 		////test
 		this.fileSelector.readFileButton.addActionListener(new ActionListener() {
 			
@@ -162,6 +167,13 @@ public class SendSMSPanel extends JPanel implements ActionListener{
 			if(result == JFileChooser.APPROVE_OPTION) {
 				templateField.setText(filechooser.getSelectedFile().getAbsolutePath());
 			}
+		}
+		
+		if(e.getSource()==generateMessageButton) {
+			MarketData data = (MarketData)marketDataModel.getSelectedItem();
+			String template = DataManager.getInstance().getTemplate(new File(templateField.getText()));
+			String newMessage = MessageDataParser.parseData(template, data);
+			messageField.setText(newMessage);
 		}
 	}
 	

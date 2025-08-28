@@ -19,8 +19,7 @@ public class CSVMarketDataParser implements IMarketDataParser{
 	public List<MarketData> getMarketData(File file) throws Exception {
 		List<MarketData> marketdatalist = new ArrayList();
 		try (Reader reader = new FileReader(file)) {
-			Iterable<CSVRecord> records = CSVFormat.RFC4180.parse(reader);
-			
+			Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(reader);
 			Iterator<CSVRecord> iterator = records.iterator();
 			
 			//get columnNames
@@ -38,7 +37,7 @@ public class CSVMarketDataParser implements IMarketDataParser{
 				int columnCount = valuesCount > headers.length ? headers.length : valuesCount;
 				HashMap<String, String> data = new HashMap<>();
 				MarketData marketdata = new MarketData(marketName, data);
-				for(int i=1; i < columnCount; i++) {
+				for(int i=0; i < columnCount; i++) {
 					data.put(headers[i], record.get(i));
 				}
 				marketdatalist.add(marketdata);
