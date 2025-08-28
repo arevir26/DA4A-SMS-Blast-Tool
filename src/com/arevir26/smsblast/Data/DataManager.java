@@ -2,7 +2,12 @@ package com.arevir26.smsblast.Data;
 
 import java.awt.Dimension;
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 
 import com.arevir26.smsblast.core.IDatabase;
 import com.arevir26.smsblast.core.SqliteDatabase;
@@ -61,8 +66,21 @@ public class DataManager {
 	}
 	
 	public String getTemplate(File file) {
+		String message = "";
+		try {
+			List<String> data = Files.readAllLines(Path.of(file.getAbsolutePath()), StandardCharsets.UTF_8);
+			for(String s : data) {
+				message += s + "\n";
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		return "Message: {Sugar (Washed)}";
+		
+		
+		
+		return message;
 	}
 	
 	
