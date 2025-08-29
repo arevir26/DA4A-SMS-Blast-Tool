@@ -25,7 +25,7 @@ public class CSVMarketDataParser implements IMarketDataParser{
 
 	@Override
 	public List<MarketData> getMarketData(File file) throws Exception {
-		List<MarketData> marketdatalist = new ArrayList();
+		List<MarketData> marketdatalist = new ArrayList<>();
 		try (Reader reader = new InputStreamReader(new FileInputStream(file), WINDOWS_ENCODING)) {
 			Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(reader);
 			Iterator<CSVRecord> iterator = records.iterator();
@@ -48,6 +48,7 @@ public class CSVMarketDataParser implements IMarketDataParser{
 					data.put(headers[i], record.get(i));
 					
 				}
+				marketdatalist.add(marketdata);
 			}
 			
 		} 
