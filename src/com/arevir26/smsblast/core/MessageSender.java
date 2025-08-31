@@ -76,7 +76,7 @@ public class MessageSender {
 	private String generateRecipientList(LinkedList<Contact> recipients) {
 		String data = "";
 		for(Contact contact : recipients) {
-			data += contact.getNumber() + ",";
+			//data += contact.getNumber() + ",";
 		}
 		return data;
 	}

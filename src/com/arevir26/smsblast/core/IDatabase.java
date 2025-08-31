@@ -9,4 +9,12 @@ public interface IDatabase {
 	public List<SmsTemplate> getTemplates();
 	public boolean addTemplate(SmsTemplate template);
 	public boolean addContact(Contact contact);
+	public boolean addGroup(String name);
+	public List<String> getGroupList();
+	public void addDataChageListener(DataChangeListener listener);
+	
+	public static interface DataChangeListener{
+		public void onGroupDataChanged(IDatabase db);
+		public void onContactDataChanged(IDatabase db);
+	}
 }

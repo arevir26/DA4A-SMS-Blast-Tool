@@ -1,26 +1,16 @@
 package com.arevir26.smsblast.Data;
 
-public class Contact {
-	protected String name, group, number;
+import java.util.ArrayList;
+import java.util.List;
 
-	public Contact(String name, String group, String number) {
-		super();
+public class Contact {
+	public String name, number;
+	public List<String> groups;
+
+	public Contact(String name,  String number) {
+		this.groups = new ArrayList<String>();
 		this.name = name;
-		this.group = group;
 		this.number = number;
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getGroup() {
-		return group;
-	}
-
-	public String getNumber() {
-		return number;
-	}
-	
 	
 }

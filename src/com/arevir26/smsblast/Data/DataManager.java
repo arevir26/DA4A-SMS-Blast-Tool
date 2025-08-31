@@ -1,20 +1,17 @@
 package com.arevir26.smsblast.Data;
 
 import java.awt.Dimension;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import com.arevir26.smsblast.core.IDatabase;
+import com.arevir26.smsblast.core.*;
 import com.arevir26.smsblast.core.SqliteDatabase;
+
 
 public class DataManager {
 	private static DataManager instance;
@@ -89,6 +86,10 @@ public class DataManager {
 		
 		
 		return message;
+	}
+	
+	public IDatabase getCurrentDatabase() {
+		return this.database;
 	}
 	
 	

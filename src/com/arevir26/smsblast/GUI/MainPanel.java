@@ -14,6 +14,7 @@ public class MainPanel extends JFrame{
 	
 	protected JTabbedPane tabpane;
 	protected SMSTabContainer smspanel;
+	protected ContactsPanel contactspanel;
 	
 	public MainPanel() {
 		setWindowSize();
@@ -36,8 +37,9 @@ public class MainPanel extends JFrame{
 		MessageSender sender = new MessageSender();
 		tabpane = new JTabbedPane();
 		smspanel = new SMSTabContainer();
+		contactspanel = new ContactsPanel();
 		tabpane.add("Send SMS", smspanel);
-		tabpane.add("Contacts", new JLabel("Contacts"));
+		tabpane.add("Contacts", contactspanel);
 		add(tabpane);
 	}
 }
