@@ -20,18 +20,17 @@ public class SMSTabContainer extends JPanel{
 	private SendSMSPanel sendpanel;
 	private GridBagConstraints cons;
 	private JScrollPane contactlistScrollPane;
-	//private ContactSelectionPanel contactlistPanel;
-	private CustomList customList;
+	
+	private ContactSelectionPanel contactsPanel;
 	
 	public SMSTabContainer() {
 		splitpane = new JSplitPane();
 		sendpanel = new SendSMSPanel();
-		//contactlistPanel = new ContactSelectionPanel();
+		contactsPanel = new ContactSelectionPanel();
 		
 		//test
-		customList = new CustomList<CheckBoxItem>();
 		CustomListModel model = new CustomListModel();
-		customList.setListModel(model);
+		contactsPanel.getListPanel().setListModel(model);
 		for(int i = 0; i < 20; i++) {
 			CheckedBoxContact contact = new CheckedBoxContact("RJ", " "+i);
 			contact.groups = new ArrayList<String>();
@@ -40,18 +39,10 @@ public class SMSTabContainer extends JPanel{
 		}
 		
 		
-		contactlistScrollPane = new JScrollPane(customList);
+		contactlistScrollPane = new JScrollPane(contactsPanel);
 		
 		splitpane.setLeftComponent(sendpanel);
 		splitpane.setRightComponent(contactlistScrollPane);
-		
-//		DefaultListModel<CustomListItem> items = new DefaultListModel<CustomListItem>();
-//		items.add(0, new CustomListItem(true, "sdfsdf", "dddddd"));
-//		for(int i=0; i < 200; i++) {
-//			items.addElement(new CustomListItem(false, "Name" + i, " contact" , "Tanza"));
-//		}
-//		
-//		contactlistPanel.setListModel(items);
 		
 		cons = new GridBagConstraints();
 		setLayout(new GridBagLayout());

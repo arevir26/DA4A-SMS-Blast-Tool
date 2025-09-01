@@ -1,67 +1,50 @@
 package com.arevir26.smsblast.GUI;
 
-import javax.swing.BoxLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
 import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.ListModel;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 
-import com.arevir26.smsblast.GUI.CustomListItem.ColumnSizeManager;
+import com.arevir26.smsblast.GUI.Custom.CheckedBoxContact;
+import com.arevir26.smsblast.GUI.Custom.CustomList;
 
-public class ContactSelectionPanel extends JPanel implements ListDataListener{
+public class ContactSelectionPanel extends JPanel{
 	
-	protected JTable table;
-	protected ListModel<CustomListItem> model;
-	
+	protected CustomList<CheckedBoxContact> listPanel;
+	protected ContactsFilter filterPanel;
+	public CustomList<CheckedBoxContact> getListPanel() {
+		return listPanel;
+	}
+
+	public ContactsFilter getFilterPanel() {
+		return filterPanel;
+	}
+
+	protected GridBagConstraints cons;
 	
 	public ContactSelectionPanel() {
-		render();
+		initialize();
 	}
 	
-	public void setListModel(ListModel<CustomListItem> model) {
-		this.model = model;
-		model.addListDataListener(this);
-		render();
-	}
-	
-	public void render() {
-		this.removeAll();
-		if(model==null)return;
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		int size = model.getSize();
-		ColumnSizeManager sizemanager = new ColumnSizeManager() {
-			
-			@Override
-			public int getColumnWidth(int index) {
-				// TODO Auto-generated method stub
-				return 100;
-			}
-		};
-		for(int i=0; i < size; i++) {
-			CustomListItem item = model.getElementAt(i);
-			item.setColumnSizeManager(sizemanager);
-			add(item);
-		}
+	protected void initialize() {
+		listPanel = new CustomList<CheckedBoxContact>();
+		filterPanel = new ContactsFilter();
+		cons = new GridBagConstraints();
 		
-	}
-
-	@Override
-	public void intervalAdded(ListDataEvent e) {
-		// TODO Auto-generated method stub
-		render();
-	}
-
-	@Override
-	public void intervalRemoved(ListDataEvent e) {
-		// TODO Auto-generated method stub
-		render();
-	}
-
-	@Override
-	public void contentsChanged(ListDataEvent e) {
-		render();
+		this.setLayout(new GridBagLayout());
 		
+		cons.fill = GridBagConstraints.BOTH;
+		cons.gridx = 0;
+		cons.gridy = 0;
+		cons.weightx = 1;
+		cons.weighty = 0;
+		cons.anchor = GridBagConstraints.FIRST_LINE_END;
+		add(filterPanel, cons);
+		
+		cons.gridy ++;
+		cons.weighty = 1;
+		
+		add(listPanel, cons);
 	}
 
 }
