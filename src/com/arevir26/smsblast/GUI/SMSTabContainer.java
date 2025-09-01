@@ -2,6 +2,7 @@ package com.arevir26.smsblast.GUI;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
@@ -12,6 +13,7 @@ import javax.swing.ListModel;
 import com.arevir26.smsblast.GUI.Custom.CheckedBoxContact;
 import com.arevir26.smsblast.GUI.Custom.CustomList;
 import com.arevir26.smsblast.GUI.Custom.CustomList.CheckBoxItem;
+import com.arevir26.smsblast.GUI.Custom.CustomListModel;
 
 public class SMSTabContainer extends JPanel{
 	private JSplitPane splitpane;
@@ -19,18 +21,26 @@ public class SMSTabContainer extends JPanel{
 	private GridBagConstraints cons;
 	private JScrollPane contactlistScrollPane;
 	//private ContactSelectionPanel contactlistPanel;
-	private CustomList<CheckedBoxContact> contactlist;
+	private CustomList customList;
 	
 	public SMSTabContainer() {
 		splitpane = new JSplitPane();
 		sendpanel = new SendSMSPanel();
 		//contactlistPanel = new ContactSelectionPanel();
-		contactlist = new CustomList<>();
-		DefaultListModel<CheckedBoxContact> model = new DefaultListModel<CheckedBoxContact>();
-		contactlist.setListModel(model);
-		model.addElement(new CheckedBoxContact("Ryan", "Joseph"));
 		
-		contactlistScrollPane = new JScrollPane(contactlist);
+		//test
+		customList = new CustomList<CheckBoxItem>();
+		CustomListModel model = new CustomListModel();
+		customList.setListModel(model);
+		for(int i = 0; i < 20; i++) {
+			CheckedBoxContact contact = new CheckedBoxContact("RJ", " "+i);
+			contact.groups = new ArrayList<String>();
+			contact.groups.add("Tanza");
+			model.addData(new CheckedBoxContact("RJ", ""+i));
+		}
+		
+		
+		contactlistScrollPane = new JScrollPane(customList);
 		
 		splitpane.setLeftComponent(sendpanel);
 		splitpane.setRightComponent(contactlistScrollPane);

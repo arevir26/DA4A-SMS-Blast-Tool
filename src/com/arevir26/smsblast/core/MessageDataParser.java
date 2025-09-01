@@ -15,7 +15,6 @@ public class MessageDataParser {
 		HashMap<String, String> priceData = data.getData();
 		Iterator<Entry<String,String>> iterator = priceData.entrySet().iterator();
 		while(iterator.hasNext()) {
-			
 			Entry<String,String> entry = iterator.next();
 			String pattern = String.format("{%s}", entry.getKey());
 			newMessage = newMessage.replace(pattern, entry.getValue());
