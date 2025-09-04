@@ -40,8 +40,13 @@ public class AddContactPanel extends JPanel implements ActionListener {
 		listeners = new ArrayList<>();
 	}
 	
-	public void addGroupDalaListener(ListDataListener listener) {
+	public void addGroupDataListener(ListDataListener listener) {
 		groupDataModel.addListDataListener(listener);
+	}
+	
+	public void setGroupData(List<String> grouplist) {
+		groupDataModel.clear();
+		groupDataModel.addAll(grouplist);
 	}
 
 	private void intitialize() {
@@ -56,12 +61,8 @@ public class AddContactPanel extends JPanel implements ActionListener {
 		groups.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		groups.setLayout(new FlowLayout());
 		groups.setVisibleRowCount(10);
-		for(int i=0; i < 100; i++) {
-			groupDataModel.addElement("Group" + i);
-		}
 		contactField = new JTextField();
 		addNewBtn = new JButton("Savet");
-		
 		cons.gridy = 0;
 		cons.gridx = 0;
 		cons.weightx = 1;

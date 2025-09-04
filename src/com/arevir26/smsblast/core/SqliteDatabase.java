@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.arevir26.smsblast.Data.Contact;
@@ -37,6 +38,10 @@ public class SqliteDatabase implements IDatabase{
 						+ "	PRIMARY KEY(\"group_id\",\"contact_id\"),"
 						+ "	UNIQUE(\"group_id\",\"contact_id\")\r\n"
 						+ ");");
+				connection.createStatement().execute("create view if not exists merged as SELECT contacts_tb.id, contacts_tb.name, contacts_tb.number, group_tb.name as groupname FROM contacts_tb\r\n"
+						+ "LEFT JOIN lookup_tb ON lookup_tb.contact_id=contacts_tb.id\r\n"
+						+ "LEFT JOIN group_tb ON lookup_tb.group_id=group_tb.id\r\n"
+						+ "ORDER BY contacts_tb.id asc");
 			} catch (SQLException e) {
 				e.printStackTrace();
 				
@@ -169,6 +174,7 @@ public class SqliteDatabase implements IDatabase{
 	public boolean addGroup(String name) {
 		
 		if(insertGroup(name)>0) {
+			onGroupDataChanged();
 			return true;
 		}
 		return false;
@@ -182,7 +188,7 @@ public class SqliteDatabase implements IDatabase{
 			statement.setQueryTimeout(30);
 			ResultSet result = statement.executeQuery(query);
 			while(result.next()) {
-				groups.add(result.getString(1));
+				groups.add(result.getString(2));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -205,6 +211,38 @@ public class SqliteDatabase implements IDatabase{
 	@Override
 	public void addDataChageListener(DataChangeListener listener) {
 		listeners.add(listener);
+	}
+	@Override
+	public List<Contact> getContacts() {
+		List<Contact> c = new ArrayList<Contact>();
+		String query = "SELECT * FROM merged";
+		
+		HashMap<Long, Contact> list = new HashMap<Long, Contact>();
+		
+		try(Connection con = DriverManager.getConnection(DATABASE);
+				Statement stment = con.createStatement()){
+			ResultSet result = stment.executeQuery(query);
+			while(result.next()) {
+				long id = result.getLong(1);
+				String contactName = result.getString(2);
+				String contactNum = result.getString(3);
+				Contact contact;
+				if(list.containsKey(id)) {
+					contact = list.get(id);
+				}else {
+					contact = new Contact(contactName, contactNum);
+					contact.id = id;
+				}
+				contact.groups.add(result.getString(4));
+				list.put(id, contact);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		c.addAll(list.values());
+		return c;
 	}
 
 }

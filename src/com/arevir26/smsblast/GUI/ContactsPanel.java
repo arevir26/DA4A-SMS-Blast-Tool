@@ -9,6 +9,7 @@ import com.arevir26.smsblast.Data.DataManager;
 import com.arevir26.smsblast.GUI.AddContactPanel.ContactActionListener;
 import com.arevir26.smsblast.GUI.AddGroupPanel.AddGroupListener;
 import com.arevir26.smsblast.core.IDatabase;
+import com.arevir26.smsblast.core.IDatabase.DataChangeListener;
 
 public class ContactsPanel extends JPanel implements ContactActionListener, AddGroupListener{
 	protected AddContactPanel addContactPanel;
@@ -24,6 +25,22 @@ public class ContactsPanel extends JPanel implements ContactActionListener, AddG
 
 		addContactPanel = new AddContactPanel();
 		addGroupPanel = new AddGroupPanel();
+		
+		DataManager.getInstance().getCurrentDatabase().addDataChageListener(new DataChangeListener() {
+			
+			@Override
+			public void onGroupDataChanged(IDatabase db) {
+				addContactPanel.setGroupData(db.getGroupList());
+			}
+			
+			@Override
+			public void onContactDataChanged(IDatabase db) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		addContactPanel.setGroupData(DataManager.getInstance().getCurrentDatabase().getGroupList());
 		
 		cons.fill = GridBagConstraints.HORIZONTAL;
 		cons.weightx = 1;

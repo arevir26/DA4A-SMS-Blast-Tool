@@ -41,13 +41,13 @@ public class CheckedBoxContact extends Contact implements CheckBoxItem{
 	}
 	
 	private String getGroups() {
-		if(this.groups !=null)return "";
+		if(this.groups ==null)return "";
 		String group = "";
 		int groupCount = this.groups.size();
 		for(int i=0; i< groupCount ; i++) {
 			group += this.groups.get(i);
 			if(i < groupCount-1 ) {
-				group += ",";
+				group += ", ";
 			}
 		}
 		return group;

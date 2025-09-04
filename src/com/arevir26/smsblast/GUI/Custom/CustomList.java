@@ -20,16 +20,17 @@ import com.arevir26.smsblast.GUI.Custom.CustomList.CheckBoxItem;
 
 public class CustomList<T extends CheckBoxItem> extends JPanel implements ListDataListener{
 	
-	protected ListModel<T> listModel;
+	protected CustomListModel listModel;
 	protected GridBagConstraints cons;
 	protected JCheckBox	selectAllCheckBox;
-	public ListModel<T> getListModel() {
+	
+	public CustomListModel getListModel() {
 		
 		return listModel;
 	}
 
 
-	public void setListModel(ListModel<T> listModel) {
+	public void setListModel(CustomListModel listModel) {
 		this.listModel = listModel;
 		this.listModel.addListDataListener(this);
 	}
@@ -75,6 +76,7 @@ public class CustomList<T extends CheckBoxItem> extends JPanel implements ListDa
 		add(insertInPanel(selectAllCheckBox), cons);
 		// Add Column Header
 		cons.gridx++;
+		cons.weightx = 1;
 		add(insertInPanel(new JLabel("Name")), cons);
 		cons.gridx++;
 		add(insertInPanel(new JLabel("Number")), cons);
@@ -83,7 +85,7 @@ public class CustomList<T extends CheckBoxItem> extends JPanel implements ListDa
 		
 		
 		for(int i=0; i < listModel.getSize(); i++) {
-			T element = listModel.getElementAt(i);
+			CheckedBoxContact element = listModel.getElementAt(i);
 			cons.gridy++;
 			cons.gridx = 0;
 			cons.weightx =0;
@@ -98,10 +100,10 @@ public class CustomList<T extends CheckBoxItem> extends JPanel implements ListDa
 	}
 	
 	
-	public List<T> getSelectedItems() {
-		List<T> selected = new ArrayList<T>();
+	public List<CheckedBoxContact> getSelectedItems() {
+		List<CheckedBoxContact> selected = new ArrayList<>();
 		for(int i=0; i < 0; i++) {
-			T item = listModel.getElementAt(i);
+			CheckedBoxContact item = listModel.getElementAt(i);
 			if(item.isChecked()) {
 				selected.add(item);
 			}
@@ -120,14 +122,14 @@ public class CustomList<T extends CheckBoxItem> extends JPanel implements ListDa
 	@Override
 	public void intervalAdded(ListDataEvent e) {
 		// TODO Auto-generated method stub
-		
+		renderItems();
 	}
 
 
 	@Override
 	public void intervalRemoved(ListDataEvent e) {
 		// TODO Auto-generated method stub
-		
+		renderItems();
 	}
 
 

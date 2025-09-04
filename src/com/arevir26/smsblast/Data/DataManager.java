@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import com.arevir26.smsblast.core.*;
+import com.arevir26.smsblast.core.IDatabase;
 import com.arevir26.smsblast.core.SqliteDatabase;
 
 
@@ -92,5 +92,5 @@ public class DataManager {
 		return this.database;
 	}
 	
-	
+
 }

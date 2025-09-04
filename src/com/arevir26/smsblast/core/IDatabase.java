@@ -12,6 +12,7 @@ public interface IDatabase {
 	public boolean addGroup(String name);
 	public List<String> getGroupList();
 	public void addDataChageListener(DataChangeListener listener);
+	public List<Contact> getContacts();
 	
 	public static interface DataChangeListener{
 		public void onGroupDataChanged(IDatabase db);

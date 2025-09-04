@@ -7,6 +7,8 @@ import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
+import com.arevir26.smsblast.Data.Contact;
+
 public class CustomListModel implements ListModel<CheckedBoxContact>{
 	
 	protected List<CheckedBoxContact> data;
@@ -17,9 +19,15 @@ public class CustomListModel implements ListModel<CheckedBoxContact>{
 		listeners = new ArrayList<ListDataListener>();
 	}
 	
-	public void setData(List<CheckedBoxContact> d) {
-		this.data = d;
+	public void setData(List<Contact> d) {
+		for(Contact c : d) {
+			CheckedBoxContact newContact = new CheckedBoxContact(c.name, c.number);
+			newContact.groups = c.groups;
+			data.add(newContact);
+		}
+		dataUpdated(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, getSize(), getSize()));
 	}
+	
 	
 	private void dataUpdated(ListDataEvent event) {
 		for(ListDataListener listener : listeners) {
@@ -27,13 +35,17 @@ public class CustomListModel implements ListModel<CheckedBoxContact>{
 		}
 	}
 	
-	public void addData(CheckedBoxContact d) {
-		data.add(d);
-		dataUpdated(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, data.size(), data.size()));
+
+	public void addData(Contact d) {
+		CheckedBoxContact newContact = new CheckedBoxContact(d.name, d.number);
+		newContact.groups = d.groups;
+		data.add(newContact);
+		dataUpdated(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, getSize(), getSize()));
 	}
 	
 	public void removeData(CheckedBoxContact d) {
-		this.data.remove(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, data.size(), data.size()));
+		this.data.remove(d);
+		dataUpdated(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, getSize(), getSize()));
 	}
 
 	@Override

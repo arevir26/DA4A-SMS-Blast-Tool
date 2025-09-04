@@ -2,18 +2,16 @@ package com.arevir26.smsblast.GUI;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.ListModel;
 
-import com.arevir26.smsblast.GUI.Custom.CheckedBoxContact;
-import com.arevir26.smsblast.GUI.Custom.CustomList;
-import com.arevir26.smsblast.GUI.Custom.CustomList.CheckBoxItem;
+import com.arevir26.smsblast.Data.DataManager;
 import com.arevir26.smsblast.GUI.Custom.CustomListModel;
+import com.arevir26.smsblast.core.IDatabase;
+import com.arevir26.smsblast.core.IDatabase.DataChangeListener;
 
 public class SMSTabContainer extends JPanel{
 	private JSplitPane splitpane;
@@ -31,13 +29,26 @@ public class SMSTabContainer extends JPanel{
 		//test
 		CustomListModel model = new CustomListModel();
 		contactsPanel.getListPanel().setListModel(model);
-		for(int i = 0; i < 20; i++) {
-			CheckedBoxContact contact = new CheckedBoxContact("RJ", " "+i);
-			contact.groups = new ArrayList<String>();
-			contact.groups.add("Tanza");
-			model.addData(new CheckedBoxContact("RJ", ""+i));
-		}
 		
+		List<String> groupdata = DataManager.getInstance().getCurrentDatabase().getGroupList();
+		contactsPanel.getFilterPanel().groupListModel.addAll(groupdata);
+		CustomListModel selectionmodel = contactsPanel.getListPanel().getListModel();
+		
+		contactsPanel.getListPanel().getListModel().setData(DataManager.getInstance().getCurrentDatabase().getContacts());
+		DataManager.getInstance().getCurrentDatabase().addDataChageListener(new DataChangeListener() {
+			
+			@Override
+			public void onGroupDataChanged(IDatabase db) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onContactDataChanged(IDatabase db) {
+				contactsPanel.getListPanel().getListModel().setData(db.getContacts());
+				
+			}
+		});
 		
 		contactlistScrollPane = new JScrollPane(contactsPanel);
 		

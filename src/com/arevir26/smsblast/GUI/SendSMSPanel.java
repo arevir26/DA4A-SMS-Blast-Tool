@@ -66,12 +66,9 @@ public class SendSMSPanel extends JPanel implements ActionListener{
 		messageField.setEditable(true);
 		messageField.setLineWrap(true);
 		messageField.setMargin(new Insets(5, 5, 5, 5));
-		//messageField.setFont(new Font("Arial Unicode MS", Font.PLAIN, 12));
-		//messageScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		messageScrollPane.getViewport().setView(messageField);
 		
 		sendButton = new JButton("Send");
-		
 		
 		cons = new GridBagConstraints();
 		cons.insets = new Insets(5, 5, 5, 5);
@@ -99,7 +96,6 @@ public class SendSMSPanel extends JPanel implements ActionListener{
 		
 		fileSelector = new FileSelectionPanel();
 		add(fileSelector, cons);
-
 
 		
 		cons.gridy ++;
@@ -144,7 +140,7 @@ public class SendSMSPanel extends JPanel implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				IMarketDataParser parser = new CSVMarketDataParser();
 				try {
-					List<MarketData> data = parser.getMarketData(new File("D:\\Workfiles\\Infographics\\data merge test.csv"));
+					List<MarketData> data = parser.getMarketData(fileSelector.selectedFile.getAbsoluteFile());
 					marketDataModel.setMarketData(data);
 					//model.setMarketData(data);
 				} catch (Exception e1) {
