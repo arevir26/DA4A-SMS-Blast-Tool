@@ -211,9 +211,13 @@ public class SqliteDatabase implements IDatabase{
 		listeners.add(listener);
 	}
 	@Override
-	public List<Contact> getContacts() {
+	public List<Contact> getContacts(DataFilter filter) {
 		List<Contact> c = new ArrayList<Contact>();
-		String query = "SELECT * FROM merged";
+		String query = "SELECT * FROM merged ";
+		
+		if(filter!=null && filter.getGroupName() !=null && filter.getGroupName().length()>0) {
+			query += MessageFormat.format("where \"groupname\"=\"{0}\" ", filter.getGroupName());
+		}
 		
 		HashMap<Long, Contact> list = new HashMap<Long, Contact>();
 		

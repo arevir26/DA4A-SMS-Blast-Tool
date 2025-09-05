@@ -2,8 +2,11 @@ package com.arevir26.smsblast.GUI;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -12,12 +15,14 @@ import com.arevir26.smsblast.Data.DataManager;
 import com.arevir26.smsblast.GUI.Custom.CustomListModel;
 import com.arevir26.smsblast.core.IDatabase;
 import com.arevir26.smsblast.core.IDatabase.DataChangeListener;
+import com.arevir26.smsblast.core.IDatabase.DataFilter;
 
 public class SMSTabContainer extends JPanel{
 	private JSplitPane splitpane;
 	private SendSMSPanel sendpanel;
 	private GridBagConstraints cons;
 	private JScrollPane contactlistScrollPane;
+	private DataFilter filter;
 	
 	private ContactSelectionPanel contactsPanel;
 	
@@ -25,7 +30,6 @@ public class SMSTabContainer extends JPanel{
 		splitpane = new JSplitPane();
 		sendpanel = new SendSMSPanel();
 		contactsPanel = new ContactSelectionPanel();
-		
 		//test
 		CustomListModel model = new CustomListModel();
 		contactsPanel.getListPanel().setListModel(model);
@@ -34,7 +38,7 @@ public class SMSTabContainer extends JPanel{
 		contactsPanel.getFilterPanel().groupListModel.addAll(groupdata);
 		CustomListModel selectionmodel = contactsPanel.getListPanel().getListModel();
 		
-		contactsPanel.getListPanel().getListModel().setData(DataManager.getInstance().getCurrentDatabase().getContacts());
+		contactsPanel.getListPanel().getListModel().setData(DataManager.getInstance().getCurrentDatabase().getContacts(SMSTabContainer.this.filter));
 		DataManager.getInstance().getCurrentDatabase().addDataChageListener(new DataChangeListener() {
 			
 			@Override
@@ -45,7 +49,7 @@ public class SMSTabContainer extends JPanel{
 			
 			@Override
 			public void onContactDataChanged(IDatabase db) {
-				contactsPanel.getListPanel().getListModel().setData(db.getContacts());
+				contactsPanel.getListPanel().getListModel().setData(db.getContacts(SMSTabContainer.this.filter));
 				
 			}
 		});

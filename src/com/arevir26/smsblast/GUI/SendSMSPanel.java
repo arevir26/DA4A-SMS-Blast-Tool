@@ -140,6 +140,10 @@ public class SendSMSPanel extends JPanel implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				IDataParser parser = new CSVMarketDataParser();
 				try {
+					if(fileSelector.selectedFile==null) {
+						return;
+					}
+					
 					List<MarketData> data = parser.getMarketData(fileSelector.selectedFile.getAbsoluteFile());
 					marketDataModel.setMarketData(data);
 					//model.setMarketData(data);

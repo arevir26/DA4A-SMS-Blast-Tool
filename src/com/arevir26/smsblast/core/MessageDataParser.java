@@ -12,6 +12,7 @@ public class MessageDataParser {
 	}
 	public static String parseData(String message, MarketData data) {
 		String newMessage = message;
+		if(data==null)return newMessage;
 		HashMap<String, String> priceData = data.getData();
 		Iterator<Entry<String,String>> iterator = priceData.entrySet().iterator();
 		while(iterator.hasNext()) {

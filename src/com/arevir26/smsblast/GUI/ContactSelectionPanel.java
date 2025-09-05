@@ -1,5 +1,6 @@
 package com.arevir26.smsblast.GUI;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -33,12 +34,13 @@ public class ContactSelectionPanel extends JPanel{
 		
 		this.setLayout(new GridBagLayout());
 		
-		cons.fill = GridBagConstraints.BOTH;
+		
+		cons.fill = GridBagConstraints.HORIZONTAL;
 		cons.gridx = 0;
 		cons.gridy = 0;
 		cons.weightx = 1;
 		cons.weighty = 0;
-		cons.anchor = GridBagConstraints.FIRST_LINE_END;
+		cons.anchor = GridBagConstraints.NORTH;
 		add(filterPanel, cons);
 		
 		cons.gridy ++;

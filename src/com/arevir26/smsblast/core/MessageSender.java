@@ -77,9 +77,15 @@ public class MessageSender {
 				.POST(body)
 				.build();
 
-		BodyHandler<String> handler = BodyHandlers.ofString();
-
+		// Prevents sending message without message and destinations
+		if(message.length()==0 || destinations.length==0) {
+			System.err.println("No Message or destination");
+			return;
+		}
 		
+		BodyHandler<String> handler = BodyHandlers.ofString();
+		
+
 		// Sends the message
 		try {
 			HttpResponse<String> response = client.send(request, handler);

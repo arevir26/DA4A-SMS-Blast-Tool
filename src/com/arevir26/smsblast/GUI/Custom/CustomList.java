@@ -1,5 +1,6 @@
 package com.arevir26.smsblast.GUI.Custom;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -66,10 +67,11 @@ public class CustomList<T extends CheckBoxItem> extends JPanel implements ListDa
 	
 	public void renderItems() {
 		removeAll();
+		
 		cons.gridy = 0;
 		cons.insets = new Insets(0, 0, 0, 0);
 		cons.fill = GridBagConstraints.BOTH;
-		cons.anchor = GridBagConstraints.FIRST_LINE_START;
+		cons.anchor = GridBagConstraints.NORTH;
 		//add header here
 		cons.gridx = 0;
 		cons.weightx = 0;
