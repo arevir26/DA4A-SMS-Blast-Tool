@@ -2,7 +2,6 @@ package com.arevir26.smsblast.core;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublisher;
@@ -10,51 +9,78 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandler;
 import java.net.http.HttpResponse.BodyHandlers;
-import java.util.LinkedList;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
+import org.json.JSONObject;
+
+import com.arevir26.smsblast.Data.APICredentials;
 import com.arevir26.smsblast.Data.Contact;
 import com.arevir26.smsblast.Data.DataManager;
-import com.arevir26.smsblast.Data.MarketData;
-import com.arevir26.smsblast.Data.SmsTemplate;
 
 public class MessageSender {
 	
 	
 	public MessageSender() {
-		URI uri = null;
-		try {
-			uri = new URI("https://www.google.com");
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+	}
+	
+	private String addCountryCode(String mobileNumber) {
+		Pattern pattern = Pattern.compile("");
+		if(Pattern.matches("09[0-9]{9}", mobileNumber)) {
+			return "+63"+mobileNumber.substring(1);
+		}else if(Pattern.matches("[+]639[0-9]{9}", mobileNumber)){
+			return mobileNumber;
+		}else {
+			return null;
 		}
 	}
 	
-	public void sendMessage(SmsTemplate smstemplate, MarketData pricedata, LinkedList<Contact> recipient) {
+	private String[] generateRecipientList(List<Contact> contacts) {
+		ArrayList<String> list = new ArrayList();
+		for(Contact contact : contacts) {
+			String number = addCountryCode(contact.number);
+			if(number==null)continue;
+			list.add(addCountryCode(contact.number));
+		}
+		return list.toArray(new String[list.size()]);
+	}
+	
+	public void sendMessage(String message, List<Contact> recipient) {
 
 		HttpClient client = HttpClient.newHttpClient();
 		
-		BodyPublisher body = BodyPublishers.ofString(generateRecipientList(recipient));
+		APICredentials credential = DataManager.getInstance().getCurrentDatabase().getApiCredential("testname");
+		URI uri = URI.create(MessageFormat.format("https://sms.8x8.com/api/v1/subaccounts/{0}/messages/batch", credential.subAccountID));
+		JSONObject template = new JSONObject();
+		template.put("text", message); // Message
+		template.put("source", credential.senderID);
+		template.put("encoding", "AUTO");
 		
-		URI uri = DataManager.getInstance().getApiUri();
+		String[] destinations = generateRecipientList(recipient);
+		
+		JSONObject smsbody = new JSONObject();
+		smsbody.put("template", template);
+		smsbody.put("destinations", destinations);
+		
+		BodyPublisher body = BodyPublishers.ofString(smsbody.toString());
+		
+		
 		
 		HttpRequest request = HttpRequest.newBuilder()
 				.uri(uri)
-				.header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
-				//.header("content-type", "text/html")
-				//.header("authorization", String.format("Bearer %s", DataManager.getInstance().getBearer()))
+				.header("accept", "application/json")
+				.header("content-type", "application/json")
+				.header("authorization", String.format("Bearer %s", credential.key))
+				.POST(body)
 				.build();
-		System.out.println(request.headers().toString());
-//		HttpRequest request = HttpRequest.newBuilder()
-//			.uri(uri)
-//			.header("accept", "application/json")
-//			.header("content-type", "application/json")
-//			.header("authorization", String.format("Bearer %s", DataManager.getInstance().getBearer()))
-//			.POST(body).build();
 
-		
 		BodyHandler<String> handler = BodyHandlers.ofString();
 
+		
+		// Sends the message
 		try {
 			HttpResponse<String> response = client.send(request, handler);
 			System.out.println(response.body());
@@ -68,16 +94,5 @@ public class MessageSender {
 		}
 	}
 	
-	/**
-	 * 
-	 * @param recipients
-	 * @return formatted string for recipients
-	 */
-	private String generateRecipientList(LinkedList<Contact> recipients) {
-		String data = "";
-		for(Contact contact : recipients) {
-			//data += contact.getNumber() + ",";
-		}
-		return data;
-	}
+
 }

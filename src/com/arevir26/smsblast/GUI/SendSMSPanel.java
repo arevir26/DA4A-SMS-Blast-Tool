@@ -23,7 +23,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import com.arevir26.smsblast.Data.DataManager;
 import com.arevir26.smsblast.Data.MarketData;
 import com.arevir26.smsblast.core.CSVMarketDataParser;
-import com.arevir26.smsblast.core.IMarketDataParser;
+import com.arevir26.smsblast.core.IDataParser;
 import com.arevir26.smsblast.core.MessageDataParser;
 
 public class SendSMSPanel extends JPanel implements ActionListener{
@@ -138,7 +138,7 @@ public class SendSMSPanel extends JPanel implements ActionListener{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				IMarketDataParser parser = new CSVMarketDataParser();
+				IDataParser parser = new CSVMarketDataParser();
 				try {
 					List<MarketData> data = parser.getMarketData(fileSelector.selectedFile.getAbsoluteFile());
 					marketDataModel.setMarketData(data);

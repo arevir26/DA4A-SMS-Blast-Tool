@@ -1,9 +1,11 @@
 package com.arevir26.smsblast.GUI;
 
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 
+import com.arevir26.smsblast.Data.Contact;
 import com.arevir26.smsblast.Data.DataManager;
 import com.arevir26.smsblast.Data.IConfig;
 import com.arevir26.smsblast.core.MessageSender;
@@ -35,6 +37,7 @@ public class MainPanel extends JFrame{
 	
 	private void initComponents(){
 		MessageSender sender = new MessageSender();
+		ArrayList<Contact> contacts = new ArrayList<>();
 		tabpane = new JTabbedPane();
 		smspanel = new SMSTabContainer();
 		contactspanel = new ContactsPanel();

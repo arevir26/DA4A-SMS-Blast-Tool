@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.arevir26.smsblast.Data.APICredentials;
 import com.arevir26.smsblast.Data.Contact;
-import com.arevir26.smsblast.Data.SmsTemplate;
 
 public class SqliteDatabase implements IDatabase{
 	private static final String DATABASE = "jdbc:sqlite:data/smsblast.db";
@@ -36,28 +36,26 @@ public class SqliteDatabase implements IDatabase{
 						+ "	\"group_id\"	INTEGER NOT NULL,"
 						+ "	\"contact_id\"	INTEGER NOT NULL,"
 						+ "	PRIMARY KEY(\"group_id\",\"contact_id\"),"
-						+ "	UNIQUE(\"group_id\",\"contact_id\")\r\n"
+						+ "	UNIQUE(\"group_id\",\"contact_id\") "
 						+ ");");
-				connection.createStatement().execute("create view if not exists merged as SELECT contacts_tb.id, contacts_tb.name, contacts_tb.number, group_tb.name as groupname FROM contacts_tb\r\n"
-						+ "LEFT JOIN lookup_tb ON lookup_tb.contact_id=contacts_tb.id\r\n"
-						+ "LEFT JOIN group_tb ON lookup_tb.group_id=group_tb.id\r\n"
+				connection.createStatement().execute("create view if not exists merged as SELECT contacts_tb.id, contacts_tb.name, contacts_tb.number, group_tb.name as groupname FROM contacts_tb "
+						+ "LEFT JOIN lookup_tb ON lookup_tb.contact_id=contacts_tb.id "
+						+ "LEFT JOIN group_tb ON lookup_tb.group_id=group_tb.id "
 						+ "ORDER BY contacts_tb.id asc");
+				connection.createStatement().execute("CREATE TABLE IF NOT EXISTS \"apikeys\" (\r\n"
+						+ "	\"id\"	INTEGER NOT NULL,\r\n"
+						+ "	\"name\"	TEXT NOT NULL,\r\n"
+						+ "	\"key\"	TEXT NOT NULL DEFAULT '',\r\n"
+						+ "	\"subId\"	TEXT NOT NULL DEFAULT '',\r\n"
+						+ "	\"senderId\"	TEXT NOT NULL DEFAULT '',\r\n"
+						+ "	PRIMARY KEY(\"id\" AUTOINCREMENT)\r\n"
+						+ ")");
 			} catch (SQLException e) {
 				e.printStackTrace();
 				
 			}
 	}
-	@Override
-	public List<SmsTemplate> getTemplates() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public boolean addTemplate(SmsTemplate template) {
-
-		return false;
-	}
 	
 	/**
 	 * Insert a group in the database and return the id
@@ -243,6 +241,25 @@ public class SqliteDatabase implements IDatabase{
 		}
 		c.addAll(list.values());
 		return c;
+	}
+	@Override
+	public APICredentials getApiCredential(String keyname) {
+		APICredentials credential = new APICredentials();
+		String query = "SELECT key, subId, senderId FROM apikeys where name=\""+ keyname +"\"";
+		
+		try(Connection con = DriverManager.getConnection(DATABASE);
+				Statement statement = con.createStatement()){
+			ResultSet result = statement.executeQuery(query);
+			if(result.next()) {
+				credential.key = result.getString(1);
+				credential.subAccountID = result.getString(2);
+				credential.senderID = result.getString(3);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return credential;
 	}
 
 }

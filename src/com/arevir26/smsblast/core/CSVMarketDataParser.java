@@ -1,25 +1,22 @@
 package com.arevir26.smsblast.core;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
-
+import com.arevir26.smsblast.Data.Contact;
 import com.arevir26.smsblast.Data.MarketData;
 
 
 /// Windows ANSI encoding = ""Cp1252""
 
-public class CSVMarketDataParser implements IMarketDataParser{
+public class CSVMarketDataParser implements IDataParser{
 	
 	public static final String WINDOWS_ENCODING = "Cp1252";
 
@@ -54,6 +51,12 @@ public class CSVMarketDataParser implements IMarketDataParser{
 		} 
 
 		return marketdatalist;
+	}
+
+	@Override
+	public List<Contact> getContactFromFile(File file) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
